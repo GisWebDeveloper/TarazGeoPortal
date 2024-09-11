@@ -1,7 +1,9 @@
 package kz.geoweb.api.service.impl;
 
+import jakarta.persistence.criteria.Predicate;
+import kz.geoweb.api.dto.EntryCreateDto;
 import kz.geoweb.api.dto.EntryDto;
-import kz.geoweb.api.dto.EntryRequestDto;
+import kz.geoweb.api.dto.EntryUpdateDto;
 import kz.geoweb.api.entity.Dictionary;
 import kz.geoweb.api.entity.Entry;
 import kz.geoweb.api.exception.CustomException;
@@ -11,9 +13,13 @@ import kz.geoweb.api.repository.EntryRepository;
 import kz.geoweb.api.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,14 +41,19 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public List<EntryDto> getEntries(UUID dictionaryId) {
-        List<Entry> entries = entryRepository.findByDictionaryIdOrderByRank(dictionaryId);
+    public List<EntryDto> getEntries(UUID dictionaryId, String search) {
+        Specification<Entry> specification = getSearchSpecification(dictionaryId, search);
+        Sort sort = Sort.by(Sort.Direction.ASC, "rank");
+        List<Entry> entries = entryRepository.findAll(specification, sort);
         return entryMapper.toDto(entries);
     }
 
     @Override
-    public Page<EntryDto> getEntries(UUID dictionaryId, Pageable pageable) {
-        return entryRepository.findByDictionaryIdOrderByRank(dictionaryId, pageable).map(entryMapper::toDto);
+    public Page<EntryDto> getEntries(UUID dictionaryId, String search, Pageable pageable) {
+        Specification<Entry> specification = getSearchSpecification(dictionaryId, search);
+        Sort sort = Sort.by(Sort.Direction.ASC, "rank");
+        Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().and(sort));
+        return entryRepository.findAll(specification, sortedPageable).map(entryMapper::toDto);
     }
 
     @Override
@@ -51,20 +62,27 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public EntryDto createEntry(EntryRequestDto entryRequestDto) {
-        Entry entry = entryMapper.toEntity(entryRequestDto);
+    public EntryDto createEntry(EntryCreateDto entryCreateDto) {
+        checkUniqueCode(entryCreateDto.getDictionaryId(), entryCreateDto.getCode());
+        Entry entry = entryMapper.toEntity(entryCreateDto);
+        Dictionary dictionary = getDictionaryEntityById(entryCreateDto.getDictionaryId());
+        entry.setDictionary(dictionary);
         Entry created = entryRepository.save(entry);
         return entryMapper.toDto(created);
     }
 
     @Override
-    public EntryDto updateEntry(UUID id, EntryRequestDto entryRequestDto) {
+    public EntryDto updateEntry(UUID id, EntryUpdateDto entryUpdateDto) {
         Entry entry = getEntityById(id);
-        entry.setCode(entryRequestDto.getCode());
-        entry.setKk(entryRequestDto.getKk());
-        entry.setRu(entryRequestDto.getRu());
-        entry.setEn(entryRequestDto.getEn());
-        entry.setRank(entryRequestDto.getRank());
+        boolean isCodeChanged = !entry.getCode().equals(entryUpdateDto.getCode());
+        if (isCodeChanged) {
+            checkUniqueCode(entry.getDictionary().getId(), entryUpdateDto.getCode());
+        }
+        entry.setCode(entryUpdateDto.getCode());
+        entry.setKk(entryUpdateDto.getKk());
+        entry.setRu(entryUpdateDto.getRu());
+        entry.setEn(entryUpdateDto.getEn());
+        entry.setRank(entryUpdateDto.getRank());
         Entry updated = entryRepository.save(entry);
         return entryMapper.toDto(updated);
     }
@@ -73,5 +91,31 @@ public class EntryServiceImpl implements EntryService {
     public void deleteEntry(UUID id) {
         getEntityById(id);
         entryRepository.deleteById(id);
+    }
+
+    private void checkUniqueCode(UUID dictionaryId, String code) {
+        entryRepository.findFirstByDictionaryIdAndCode(dictionaryId, code)
+                .ifPresent(entry -> {
+                    throw new CustomException("entry.by_code.already_exists", code);
+                });
+    }
+
+    private Specification<Entry> getSearchSpecification(UUID dictionaryId, String search) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("dictionary").get("id"), dictionaryId));
+
+            if (search != null && !search.isBlank()) {
+                String searchPattern = "%" + search.toLowerCase() + "%";
+                Predicate codePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("code")), searchPattern);
+                Predicate kkPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("kk")), searchPattern);
+                Predicate ruPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("ru")), searchPattern);
+                Predicate enPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("en")), searchPattern);
+                Predicate searchPredicate = criteriaBuilder.or(codePredicate, kkPredicate, ruPredicate, enPredicate);
+                predicates.add(searchPredicate);
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
     }
 }

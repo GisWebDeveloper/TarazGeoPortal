@@ -1,6 +1,8 @@
 package kz.geoweb.api.controller;
 
+import jakarta.validation.Valid;
 import kz.geoweb.api.dto.DictionaryDto;
+import kz.geoweb.api.dto.DictionaryRequestDto;
 import kz.geoweb.api.dto.EntryDto;
 import kz.geoweb.api.service.DictionaryService;
 import kz.geoweb.api.service.EntryService;
@@ -20,8 +22,9 @@ public class DictionaryController {
     private final EntryService entryService;
 
     @GetMapping
-    public Page<DictionaryDto> getDictionaries(Pageable pageable) {
-        return dictionaryService.getDictionaries(pageable);
+    public Page<DictionaryDto> getDictionaries(@RequestParam(required = false) String search,
+                                               Pageable pageable) {
+        return dictionaryService.getDictionaries(search, pageable);
     }
 
     @GetMapping("/{id}")
@@ -30,14 +33,14 @@ public class DictionaryController {
     }
 
     @PostMapping
-    public DictionaryDto createDictionary(@RequestBody DictionaryDto dictionaryDto) {
-        return dictionaryService.createDictionary(dictionaryDto);
+    public DictionaryDto createDictionary(@RequestBody @Valid DictionaryRequestDto dictionaryRequestDto) {
+        return dictionaryService.createDictionary(dictionaryRequestDto);
     }
 
     @PutMapping("/{id}")
     public DictionaryDto updateDictionary(@PathVariable UUID id,
-                                          @RequestBody DictionaryDto dictionaryDto) {
-        return dictionaryService.updateDictionary(id, dictionaryDto);
+                                          @RequestBody @Valid DictionaryRequestDto dictionaryRequestDto) {
+        return dictionaryService.updateDictionary(id, dictionaryRequestDto);
     }
 
     @DeleteMapping("/{id}")
@@ -46,13 +49,15 @@ public class DictionaryController {
     }
 
     @GetMapping("/{id}/entries")
-    public List<EntryDto> getEntries(@PathVariable UUID id) {
-        return entryService.getEntries(id);
+    public List<EntryDto> getEntries(@PathVariable UUID id,
+                                     @RequestParam(required = false) String search) {
+        return entryService.getEntries(id, search);
     }
 
     @GetMapping("/{id}/entries/page")
     public Page<EntryDto> getEntries(@PathVariable UUID id,
+                                     @RequestParam(required = false) String search,
                                      Pageable pageable) {
-        return entryService.getEntries(id, pageable);
+        return entryService.getEntries(id, search, pageable);
     }
 }
