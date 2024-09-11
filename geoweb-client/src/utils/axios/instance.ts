@@ -3,7 +3,7 @@ import { clearStoredToken, getStoredToken, setStoredToken } from '../auth/tokenS
 import { TokenResponse } from '../../api/types/auth';
 
 const instance = axios.create({
-  baseURL: '/geoweb/api',
+  baseURL: '/api',
   withCredentials: true,
   headers: {
     'Access-Control-Allow-Origin': '*',
@@ -12,7 +12,7 @@ const instance = axios.create({
 });
 
 const refreshInstance = axios.create({
-  baseURL: '/geoweb/api',
+  baseURL: '/api',
   withCredentials: true,
   headers: {
     'Access-Control-Allow-Origin': '*',
