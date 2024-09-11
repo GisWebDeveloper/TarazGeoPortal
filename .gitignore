@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 
-/docker-data
+docker-data/
 .env
