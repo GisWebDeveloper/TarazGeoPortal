@@ -25,3 +25,5 @@ yarn-error.log*
 
 /docker-data
 .env
+geoweb-client/package.json
+geoweb-client/src/utils/axios/instance.ts
