@@ -5,6 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@hookform/resolvers": "^3.9.0",
     "@mui/icons-material": "^6.0.2",
     "@mui/material": "^6.0.2",
     "@mui/x-data-grid": "^7.16.0",
@@ -19,13 +21,16 @@
     "ol-ext": "^4.0.23",
     "proj4": "^2.12.1",
     "react": "^18.3.1",
+    "react-checkbox-tree": "^1.8.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
     "react-i18next": "^15.0.1",
     "react-router-dom": "^6.26.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.4.0",
+    "zustand": "^5.0.0-rc.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -51,5 +56,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8787"
+  "proxy": "http://77.240.39.93:5757"
 }
