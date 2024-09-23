@@ -30,7 +30,7 @@ export const BaseLayersTool: React.FC<Props> = ({ map, color, layers }) => {
 
     useEffect(() => {
         if(!layers||layers.length==0) return;
-        debugger;
+        
         let layerListNew:any[] = [];
         layers.map((layerItem:TileLayer)=>{
             layerListNew.push({

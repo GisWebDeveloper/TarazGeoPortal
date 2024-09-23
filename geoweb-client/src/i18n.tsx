@@ -76,8 +76,10 @@ const resources = {
       // error messages from backend
       'entry.by_code.already_exists': 'Осы кодпен жазба бар',
       'dictionary.by_code.already_exists': 'Осы кодпен сөздік бар',
+      baseLayers:'Негізгі қабаттар',
+      allRightsAreReserved:"Барлық құқықтар қорғалған"
     },
-    baseLayers:'Негізгі қабаттар'
+    
   },
   ru: {
     translation: {
@@ -151,8 +153,10 @@ const resources = {
       no: 'Нет',
       'entry.by_code.already_exists': 'Запись с таким кодом уже существует',
       'dictionary.by_code.already_exists': 'Справочник с таким кодом уже существует',
+      baseLayers:'Базовые слои',
+      allRightsAreReserved:"Все права защищены"
     },
-    baseLayers:'Базовые слои'
+    
   },
 };
 

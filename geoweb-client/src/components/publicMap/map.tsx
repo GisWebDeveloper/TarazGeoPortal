@@ -12,12 +12,15 @@ import LayerGroup from 'ol/layer/Group';
 import { BaseLayersTool } from './tools/baseLayers';
 import TileLayer from 'ol/layer/Tile';
 import { LeftPanel } from './leftPanel';
+import proj4 from 'proj4';
+import { toStringHDMS } from 'ol/coordinate';
 
 const MapComponent = () => {
   const mapDivRef = useRef<HTMLDivElement | null>(null);
   const { map, setMap, mapMode } = usePublicMapStore();
   const [baseLayersArr,setBaseLayersArr] = useState<TileLayer[]>([]);
   const [userLayersArr,setUserLayersArr] = useState<TileLayer[]>([]);
+  const [mapMouseOverCoord, setMapMouseOverCoord] = useState<string>('');
 
   useEffect(() => {
     if (!mapDivRef.current) return;
@@ -71,7 +74,15 @@ const MapComponent = () => {
             layers: defaultBaseLayers_,
         })]
     });
+    mapObj.on('pointermove', (evt: any) => {
+            if (evt.dragging) {
+                // the event is a drag gesture, this is handled by openlayers (map move)
+                return;
+            }
+            let wgsCoords = proj4('EPSG:3857', 'EPSG:4326', evt.coordinate);
 
+            setMapMouseOverCoord(toStringHDMS(wgsCoords, 0));
+        })
     mapObj.setTarget(mapDivRef.current);
 
     setMap(mapObj);
@@ -127,6 +138,23 @@ const MapComponent = () => {
           </>
         )}
       </Box>
+      <div className='tejhsjka'
+                style={{
+                    position: 'fixed',
+                    left: '2rem',
+                    bottom: '4.55rem',
+                    zIndex: 10000000,
+                    width: '210px',
+                    height: '23px',
+                    padding: '3px 25px',
+                    background: '#5ebc67',
+                    color: 'white',
+                    fontSize: '12px',
+                    borderRadius: '16px',
+                }}
+            >
+                {mapMouseOverCoord}
+            </div>
     </div>
   );
 };
