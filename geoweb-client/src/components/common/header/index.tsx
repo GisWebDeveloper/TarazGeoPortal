@@ -27,8 +27,8 @@ const Header: React.FC = () => {
   };
 
   const pages = [
-    { title: 'About', url: '/about', label: 'About' },
-    { title: 'Docs', url: '/documentation', label: 'Documentation' },
+    { title: 'About', url: '/about', label: 'aboutUsPage.title' },
+    { title: 'Docs', url: '/documentation', label: 'documentation' },
   ];
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -89,7 +89,7 @@ const Header: React.FC = () => {
                 // alignItems: 'center',
               }}
             >
-              <Logo
+              {/* <Logo
                 iconStyles={{
                   display: { xs: 'none', md: 'flex' },
                   mr: 1,
@@ -98,7 +98,25 @@ const Header: React.FC = () => {
                 textVariant="h6"
                 textFlexGrow={0}
                 isFooter={false}
-              />
+              /> */}
+              <Link to="/" style={{ textDecoration: 'none' }} className="">
+              <Typography
+                  sx={{
+                    paddingRight: '10px',
+                    //lineHeight: 0.9,
+                    // TODO: translate
+                    //color: router.locale === 'kk' ? 'white' : 'black',
+                    marginLeft: '10px',
+                    ':hover': {
+                      color: '#5dbb67',
+                    },
+                    cursor: 'pointer',
+                    color: 'green',
+                  }}
+                >
+                  {t('headerTitle')}
+                </Typography>
+                </Link>
               <Box
                 sx={{
                   display: 'flex',
@@ -184,7 +202,7 @@ const Header: React.FC = () => {
                         },
                       }}
                     >
-                      {page.label}
+                      {t(page.label)}
                     </Button>
                   </Link>
                 ))}
@@ -283,7 +301,7 @@ const Header: React.FC = () => {
                         : {})}
                     >
                       <MenuItem key={index} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page.label}</Typography>
+                        <Typography textAlign="center">{t(page.label)}</Typography>
                       </MenuItem>
                     </Link>
                   ))}

@@ -41,7 +41,7 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const routes: DashboardRoute[] = [
-    { text: t('users'), path: '/users', icon: <GrouprIcon />, component: <>{t('users')}</>, isMenuItem: true },
+    /*{ text: t('users'), path: '/users', icon: <GrouprIcon />, component: <>{t('users')}</>, isMenuItem: true },
     { text: t('maps.title'), path: '/maps', icon: <MapIcon />, component: <MapFolders />, isMenuItem: true },
     { path: '/maps/add', component: <MapFolderCreate /> },
     { path: '/maps/:id/edit', component: <MapFolderEdit /> },
@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
       icon: <SettingsIcon />,
       component: <>{t('layerAttributes')}</>,
       isMenuItem: true,
-    },
+    },*/
     {
       text: t('dictionaries'),
       path: '/dictionaries',

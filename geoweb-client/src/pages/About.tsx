@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 //import styles from "./src/page.module.css";
 
 
@@ -7,6 +8,7 @@ import React from "react";
 //import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const About:  React.FC = () => {
+  const { t } = useTranslation();
     return <>
            <Box
               width="100%"
@@ -18,7 +20,7 @@ const About:  React.FC = () => {
               position="relative"
               p={0}
             >
-              <p>Mina jerde biz turali degen aqparat bolui kerek</p>
+              <p>{t('aboutUsPage.text')}</p>
           </Box>
     </>;
 };
