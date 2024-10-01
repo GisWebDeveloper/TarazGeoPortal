@@ -1,5 +1,6 @@
 package kz.geoweb.api.service;
 
+import kz.geoweb.api.dto.LayerInfoDto;
 import kz.geoweb.api.dto.LayerDto;
 import kz.geoweb.api.dto.LayerRequestDto;
 import org.springframework.data.domain.Page;
@@ -10,7 +11,9 @@ import java.util.UUID;
 public interface LayerService {
     LayerDto getLayer(UUID id);
 
-    Page<LayerDto> getLayers(String search, Pageable pageable);
+    LayerInfoDto getLayerByLayername(String layername);
+
+    Page<LayerInfoDto> getLayers(String search, Pageable pageable);
 
     LayerDto createLayer(LayerRequestDto layerRequestDto);
 

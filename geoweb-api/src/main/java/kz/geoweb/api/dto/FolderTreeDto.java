@@ -19,5 +19,5 @@ public class FolderTreeDto {
     private String imgUrl;
     private Integer rank;
     private Set<FolderTreeDto> children = new HashSet<>();
-    private Set<LayerDto> layers = new HashSet<>();
+    private Set<LayerInfoDto> layers = new HashSet<>();
 }

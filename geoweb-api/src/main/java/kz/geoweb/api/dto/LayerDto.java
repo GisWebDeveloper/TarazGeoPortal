@@ -4,6 +4,8 @@ import kz.geoweb.api.enums.GeometryType;
 import kz.geoweb.api.enums.LayerType;
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -26,4 +28,5 @@ public class LayerDto {
     private Boolean isDynamic = false;
     private Boolean isPublic = false;
     private String dynamicIdentityColumn;
+    private Set<FolderRequestDto> folders = new HashSet<>();
 }
