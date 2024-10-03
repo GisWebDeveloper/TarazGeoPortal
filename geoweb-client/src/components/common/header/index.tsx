@@ -67,7 +67,7 @@ const Header: React.FC = () => {
     >
       <AppBar
         sx={{
-          backgroundColor: '#fff',
+          backgroundColor: '#196fa6',
           boxShadow: 'none',
         }}
         position="static"
@@ -108,10 +108,10 @@ const Header: React.FC = () => {
                     //color: router.locale === 'kk' ? 'white' : 'black',
                     marginLeft: '10px',
                     ':hover': {
-                      color: '#5dbb67',
+                      color: '#fff',
                     },
                     cursor: 'pointer',
-                    color: 'green',
+                    color: '#fff',
                   }}
                 >
                   {t('headerTitle')}
@@ -133,10 +133,10 @@ const Header: React.FC = () => {
                     marginLeft: '10px',
                     borderRight: '1px solid black',
                     ':hover': {
-                      color: '#5dbb67',
+                      color: '#fff',
                     },
                     cursor: 'pointer',
-                    color: i18n.language === 'kk' ? '#5dbb67' : 'black',
+                    color: i18n.language === 'kk' ? '#fff' : 'black',
                   }}
                   onClick={() => changeLanguage('kk')}
                 >
@@ -151,10 +151,10 @@ const Header: React.FC = () => {
                     marginLeft: '10px',
                     borderRight: '1px solid black',
                     ':hover': {
-                      color: '#5dbb67',
+                      color: '#fff',
                     },
                     cursor: 'pointer',
-                    color: i18n.language === 'ru' ? '#5dbb67' : 'black',
+                    color: i18n.language === 'ru' ? '#fff' : 'black',
                   }}
                   onClick={() => changeLanguage('ru')}
                 >
@@ -189,7 +189,7 @@ const Header: React.FC = () => {
                     <Button
                       onClick={handleCloseNavMenu}
                       sx={{
-                        color: 'black',
+                        color: '#fff',
                         display: 'block',
                         textTransform: 'none',
                         padding: '0',
@@ -245,7 +245,7 @@ const Header: React.FC = () => {
                   <Link to="/login" style={{ color: 'inherit', textDecoration: 'none' }}>
                     <Button
                       sx={{
-                        color: 'black',
+                        color: '#fff',
                         display: 'block',
                         textTransform: 'none',
                         padding: '0',
@@ -301,7 +301,7 @@ const Header: React.FC = () => {
                         : {})}
                     >
                       <MenuItem key={index} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{t(page.label)}</Typography>
+                        <Typography textAlign="center" sx={{color:'#fff'}}>{t(page.label)}</Typography>
                       </MenuItem>
                     </Link>
                   ))}
