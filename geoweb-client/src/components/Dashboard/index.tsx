@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link, Route as DashboardRoute, Routes, useLocation } from 'react-router-dom';
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Link, Route as DashboardRoute, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Box, CardHeader, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
   Map as MapIcon,
@@ -11,10 +11,11 @@ import { useTranslation } from 'react-i18next';
 import { useLoading } from '../common/loadingBar/loadingContext';
 import { Dictionaries } from './Dictionaries';
 import { DictionaryEntries } from './Dictionaries/Entries';
-import { MapFolders } from './MapFolders';
-import { MapFolderCreate } from './MapFolders/MapFolderCreate';
-import { MapFolderEdit } from './MapFolders/MapFolderEdit';
-import { MapFolderEditLayers } from './MapFolders/MapFolderEditLayers';
+import { MapFolders } from './Maps/Index';
+import { MapFolderEditForm } from './Maps/MapFolder/EditForm';
+import { MapFolderEditLayers } from './Maps/Index/MapEditLayers';
+import { MapFolderCreateForm } from './Maps/MapFolder/CreateForm';
+import { GoBackButton } from '../common/goBackButton';
 
 const parentUrl = '/dashboard';
 
@@ -28,6 +29,7 @@ type DashboardRoute = {
 };
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
   const { setLoading } = useLoading();
@@ -41,10 +43,32 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const routes: DashboardRoute[] = [
-    /*{ text: t('users'), path: '/users', icon: <GrouprIcon />, component: <>{t('users')}</>, isMenuItem: true },
+    { text: t('users'), path: '/users', icon: <GrouprIcon />, component: <>{t('users')}</>, isMenuItem: true },
     { text: t('maps.title'), path: '/maps', icon: <MapIcon />, component: <MapFolders />, isMenuItem: true },
-    { path: '/maps/add', component: <MapFolderCreate /> },
-    { path: '/maps/:id/edit', component: <MapFolderEdit /> },
+    {
+      path: '/maps/add',
+      component: (
+        <>
+          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap'}>
+            <GoBackButton text={t('backToList')} onClick={() => navigate('/dashboard/maps')} />
+            <CardHeader title={t('maps.addMap')} sx={{ textAlign: 'center', flex: 1 }} />
+          </Box>
+          <MapFolderCreateForm onSuccess={() => navigate('/dashboard/maps')} onCancel={() => navigate('/dashboard/maps')} />
+        </>
+      ),
+    },
+    {
+      path: '/maps/:id/edit',
+      component: (
+        <>
+          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap'}>
+            <GoBackButton text={t('backToList')} onClick={() => navigate('/dashboard/maps')} />
+            <CardHeader title={t('editProperties')} sx={{ textAlign: 'center', flex: 1 }} />
+          </Box>
+          <MapFolderEditForm onSuccess={() => navigate('/dashboard/maps')} onCancel={() => navigate('/dashboard/maps')} />
+        </>
+      ),
+    },
     { path: '/maps/:id/edit-layers', component: <MapFolderEditLayers /> },
     {
       text: t('layers'),
@@ -68,7 +92,7 @@ const Dashboard: React.FC = () => {
       icon: <SettingsIcon />,
       component: <>{t('layerAttributes')}</>,
       isMenuItem: true,
-    },*/
+    },
     {
       text: t('dictionaries'),
       path: '/dictionaries',
@@ -94,12 +118,11 @@ const Dashboard: React.FC = () => {
 
   return (
     <Box display="flex" flexDirection="row" height="100%" flex={1} border={'1px solid #ddd'}>
-      {/* Sidebar */}
       <Box borderRight={'1px solid #ddd'} width={300}>
         <List>
           {menuItems.map((item) => (
-            <>
-              <ListItem key={item.text} disablePadding>
+            <Fragment key={item.text}>
+              <ListItem disablePadding>
                 <ListItemButton
                   component={Link}
                   to={`${parentUrl}${item.path}`}
@@ -122,7 +145,7 @@ const Dashboard: React.FC = () => {
                     </ListItemButton>
                   </ListItem>
                 ))}
-            </>
+            </Fragment>
           ))}
         </List>
       </Box>

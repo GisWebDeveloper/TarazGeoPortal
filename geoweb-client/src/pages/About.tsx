@@ -17,7 +17,8 @@ const About: React.FC = () => {
       position="relative"
       p={0}
     >
-      <p>Mina jerde biz turali degen aqparat bolui kerek</p>
+      {/* <p>Mina jerde biz turali degen aqparat bolui kerek</p> */}
+      <img src="images/Taraz.jpg" alt="" style={{ width : 'inherit'}} />
     </Box>
   </>;
 };

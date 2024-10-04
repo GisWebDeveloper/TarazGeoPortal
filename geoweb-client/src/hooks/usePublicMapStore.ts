@@ -1,4 +1,5 @@
 import { Map } from 'ol';
+import TileLayer from 'ol/layer/Tile';
 import { create } from 'zustand';
 
 export enum MapMode {
@@ -11,6 +12,14 @@ type PublicMapState = {
   setMap: (map: Map | null) => void;
   mapMode: MapMode;
   setMapMode: (mode: MapMode) => void;
+  userLayers: TileLayer[];
+  setUserLayers: (layers: TileLayer[]) => void;
+  identifyEventData: any;
+  setIdentifyEventData: (identifyEventData: any) => void;
+  attributeTables: any[];
+  setAttributeTables: (attributeTables: any[]) => void;
+  currentAttributeTable: any;
+  setCurrentAttributeTable: (currentAttributeTable: any) => void;
 };
 
 export const usePublicMapStore = create<PublicMapState>((set) => ({
@@ -18,4 +27,12 @@ export const usePublicMapStore = create<PublicMapState>((set) => ({
   setMap: (map) => set({ map }),
   mapMode: MapMode.IDENTIFY,
   setMapMode: (mapMode) => set({ mapMode }),
+  userLayers: [],
+  setUserLayers: (userLayers) => set({ userLayers }),
+  identifyEventData: null,
+  setIdentifyEventData: (identifyEventData) => set({ identifyEventData }),
+  attributeTables: [],
+  setAttributeTables: (attributeTables: any[]) => set({ attributeTables }),
+  currentAttributeTable: null,
+  setCurrentAttributeTable: (currentAttributeTable: any) => set({ currentAttributeTable }),
 }));

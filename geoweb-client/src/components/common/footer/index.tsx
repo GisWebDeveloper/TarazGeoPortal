@@ -13,11 +13,11 @@ import AppBar from '@mui/material/AppBar';
 import { Toolbar, Typography, Box } from '@mui/material';
 import Container from '@mui/material/Container';
 //import Cookies from 'js-cookie';
-import { useTranslation } from 'react-i18next';
+
 const Footer: React.FC<{}> = () => {
     //const { t } = useTranslation('common');
 
-    const { t } = useTranslation();
+    
     return (
         <Box
             sx={{
@@ -41,7 +41,7 @@ const Footer: React.FC<{}> = () => {
                       variant="body1"
                       sx={{ flexGrow: 1, textAlign: 'center', color: 'black' }}
                     >
-                      © 2024  {t('allRightsAreReserved')}.
+                      © 2024 Your Company. All Rights Reserved.
                     </Typography>
 
                     {/* Right-Side Logo */}
