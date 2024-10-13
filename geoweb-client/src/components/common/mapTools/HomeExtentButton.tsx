@@ -14,10 +14,11 @@ export const HomeExtentButton: FC<Props> = ({ map, color }) => {
 
   const handleButtonClick = () => {
     if (map) {
-      let zoom = 5.15;
-      let center = [7739532.205446683, 6290648.115801078];
+      let zoom = 13;
+      let center = [7945476.188792471, 5295863.006421878];
       map.getView()?.setZoom(zoom);
       map.getView()?.setCenter(center);
+      //map.getView().fit([7880019.8447,5262810.0246,8011415.0964,5331603.3501]);
     }
   };
 

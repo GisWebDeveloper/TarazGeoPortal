@@ -19,8 +19,9 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthorized, logout } = useAuth();
-
+  const mainThemeColor = '#275e26'; // 196fa6  275e26
   const { i18n, t } = useTranslation();
+  
 
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -67,7 +68,7 @@ const Header: React.FC = () => {
     >
       <AppBar
         sx={{
-          backgroundColor: '#196fa6',
+          backgroundColor: mainThemeColor,
           boxShadow: 'none',
         }}
         position="static"
@@ -137,6 +138,7 @@ const Header: React.FC = () => {
                     },
                     cursor: 'pointer',
                     color: i18n.language === 'kk' ? '#fff' : 'black',
+                    textDecoration: i18n.language === 'kk' ? 'underline' :'none'
                   }}
                   onClick={() => changeLanguage('kk')}
                 >
@@ -155,6 +157,7 @@ const Header: React.FC = () => {
                     },
                     cursor: 'pointer',
                     color: i18n.language === 'ru' ? '#fff' : 'black',
+                    textDecoration: i18n.language === 'ru' ? 'underline' :'none'
                   }}
                   onClick={() => changeLanguage('ru')}
                 >
@@ -174,6 +177,24 @@ const Header: React.FC = () => {
                   alignItems: 'center',
                 }}
               >
+                {location.pathname != '/'&&(<><Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    <Button
+                      sx={{
+                        color: '#fff',
+                        display: 'block',
+                        textTransform: 'none',
+                        padding: '0',
+                        minWidth: 'none',
+                        marginLeft: '24px',
+                        ':hover': {
+                          fontWeight: 'bold',
+                          backgroundColor: 'inherit',
+                        },
+                      }}
+                    >
+                      {t('map')}
+                    </Button>
+                  </Link></>)}
                 {pages.map((page, index) => (
                   <Link
                     key={index}
@@ -228,7 +249,7 @@ const Header: React.FC = () => {
                     >
                       <MenuItem>
                         <Link to="/dashboard/maps" style={{ color: 'inherit', textDecoration: 'none' }}>
-                          <Typography textAlign="center">{t('dashboard')}</Typography>
+                          <Typography textAlign="center">{t('dictionaries')}</Typography>
                         </Link>
                       </MenuItem>
                       <MenuItem

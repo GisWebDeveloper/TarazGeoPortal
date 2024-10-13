@@ -12,11 +12,12 @@ import Logo from '../logo';
 import AppBar from '@mui/material/AppBar';
 import { Toolbar, Typography, Box } from '@mui/material';
 import Container from '@mui/material/Container';
+import { useTranslation } from 'react-i18next';
 //import Cookies from 'js-cookie';
 
 const Footer: React.FC<{}> = () => {
     //const { t } = useTranslation('common');
-
+    const {  t } = useTranslation();
     
     return (
         <Box
@@ -41,7 +42,7 @@ const Footer: React.FC<{}> = () => {
                       variant="body1"
                       sx={{ flexGrow: 1, textAlign: 'center', color: 'black' }}
                     >
-                      © 2024 Your Company. All Rights Reserved.
+                      {t('footerTitle')}
                     </Typography>
 
                     {/* Right-Side Logo */}

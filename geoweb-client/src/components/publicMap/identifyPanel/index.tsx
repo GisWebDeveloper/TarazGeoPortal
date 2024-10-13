@@ -8,6 +8,7 @@ import {
   AccordionSummary,
   Divider,
   IconButton,
+  Pagination,
   Paper,
   Tab,
   Table,
@@ -27,6 +28,8 @@ import FileOpenIcon from '@mui/icons-material/FileOpen';
 import OpenlayersBaseLayersUtils from '../../../utils/openlayers/OpenlayersBaseLayersUtils';
 import { usePublicMapStore } from '../../../hooks/usePublicMapStore';
 import { mapOpenAPI } from '../../../api/openApi';
+import { translateField } from '../../../utils/localization';
+import { useTranslation } from 'react-i18next';
 
 class GeoserverIdnetifyParams {
   constructor(
@@ -38,6 +41,7 @@ class GeoserverIdnetifyParams {
 }
 
 export const IdentifyPanel = (props: any) => {
+  const { i18n, t } = useTranslation();
   const { map, userLayers, identifyEventData, setIdentifyEventData, systemThemeColor } = usePublicMapStore();
   const [identData, setIdentData] = useState<any>();
   const [selectedFeature, setSelectedFeature] = useState<any | null>(null);
@@ -173,11 +177,21 @@ export const IdentifyPanel = (props: any) => {
                 features: [],
               };
             }
-            identDataByLayers[item_.layer.id].features.push({
+            let featureItem = {
               attributes: item_.attributes,
               gid: item_.gid,
               geom: item_.geom,
-            });
+            };
+            //hard code
+            let lifeFormValue = featureItem.attributes.filter((x:any)=>x.attr.attrname=='class_id')[0];
+            if(lifeFormValue.value&&lifeFormValue.value<500){
+
+              featureItem.attributes = featureItem.attributes.filter(( attrItem_:any ) => {
+                  return attrItem_.attr.attrname !== 'condithedg'&&attrItem_.attr.attrname !== 'notehedges'&&attrItem_.attr.attrname !== 'lengthhedg';
+              })
+            }
+            // hardcode end
+            identDataByLayers[item_.layer.id].features.push(featureItem);
           });
         }
         setIdentData(identDataByLayers);
@@ -317,18 +331,24 @@ export const IdentifyPanel = (props: any) => {
             classes={{ expanded: 'expanded' }}
           >
             {/* <Typography>{translateField(item.layer, 'name', locale)}</Typography> */}
-            <Typography>{`${identData[key].layer.nameRu} (${identData[key].features.length})`}</Typography>
+            <Typography>{`${translateField(identData[key].layer,'name',i18n.language)} (${identData[key].features.length})`}</Typography>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: '8px 0px 0px', width: '100%', overflowX: 'scroll' }}>
+          <Pagination sx={{float:'right'}} siblingCount={0} boundaryCount={1}  count={identData[key].features.length} onChange={(event: React.ChangeEvent<unknown>, value: number) => {
+              //setPage(value);
+              let featrePanels:any = document.querySelectorAll(`[class^=class-ident-${identData[key].layer.id}]`);
+              featrePanels.forEach((panel:any)=>{
+                panel.style.display = 'none';
+              })
+              let selectedPanel:any = document.querySelectorAll(`[class^=class-ident-${identData[key].layer.id}-${(value-1)}]`);
+              selectedPanel[0].style.display = 'block';
+            }}/>
             {identData[key].features.map((feature_: any, index: number) => {
               return (
-                <>
-                  <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-                    {index + 1}
-                  </Typography>
-                  <Divider sx={{background:'red'}}/>
+                <div className={`class-ident-${identData[key].layer.id}-${index}`}  style={{display:index==0?'block':'none'}}>
+                  
                   <Table
-                    aria-label="custom pagination table"
+                    aria-label="custom pagination table customized"
                     size="small"
                     sx={{
                       wordWrap: 'break-word',
@@ -338,7 +358,8 @@ export const IdentifyPanel = (props: any) => {
                     <TableBody>
                       {feature_.attributes.length > 0 &&
                         feature_.attributes.map((attributeItem: any) => (
-                          <TableRow key={attributeItem.attr.nameRu}>
+
+                          <TableRow key={attributeItem.attr.id}>
                             <TableCell
                               component="th"
                               scope="row"
@@ -350,7 +371,7 @@ export const IdentifyPanel = (props: any) => {
                               }}
                               width={180}
                             >
-                              {attributeItem.attr.nameRu}
+                              {translateField(attributeItem.attr, 'name', i18n.language)}
                             </TableCell>
                             <TableCell
                               width={270}
@@ -367,108 +388,15 @@ export const IdentifyPanel = (props: any) => {
                         ))}
                     </TableBody>
                   </Table>
-                </>
+                </div>
               );
             })}
+            
           </AccordionDetails>
         </Accordion>,
       );
       index++;
     }
-    // const list = identData?.map((item: any, index: number) => {
-    //   return (
-    //     <TabContext value={tab} key={item.gid}>
-    //       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-    //         <TabList onChange={handleChange} aria-label="">
-    //           <Tab label="Атрибуты" value="attribute" />
-    //         </TabList>
-    //       </Box>
-    //       <TabPanel value="attribute" sx={{ width: '100%', padding: 0, marginTop: '10px' }}>
-    //         <Accordion
-    //           sx={{ width: '100%', height: 'auto' }}
-    //           defaultExpanded={index === 0 ? true : false}
-    //           onChange={(event, expanded) => setSelectedFeature(item)}
-    //         >
-    //           <AccordionSummary
-    //             expandIcon={<ExpandMoreIcon />}
-    //             aria-controls="panel1a-content"
-    //             id="panel1a-header"
-    //             classes={{ expanded: 'expanded' }}
-    //           >
-    //             <Typography>{item.layer.nameRu}</Typography>
-    //           </AccordionSummary>
-    //           <AccordionDetails sx={{ padding: '8px 0px 0px', width: '100%', overflowX: 'scroll' }}>
-    //             <Table
-    //               aria-label="custom pagination table"
-    //               size="small"
-    //               sx={{
-    //                 wordWrap: 'break-word',
-    //                 tableLayout: 'fixed',
-    //               }}
-    //             >
-    //               <TableBody>
-    //                 {item.attributes.length > 0 &&
-    //                   item.attributes.map((attributeItem: any) => (
-    //                     <TableRow key={attributeItem.attr.nameRu}>
-    //                       <TableCell
-    //                         component="th"
-    //                         scope="row"
-    //                         sx={{ padding: '2px' }}
-    //                         style={{
-    //                           padding: '6px 2px',
-    //                           wordWrap: 'break-word',
-    //                           whiteSpace: 'normal',
-    //                         }}
-    //                         width={180}
-    //                       >
-    //                         {attributeItem.attr.nameRu}
-    //                       </TableCell>
-    //                       <TableCell
-    //                         width={270}
-    //                         style={{
-    //                           padding: '6px 2px',
-    //                           wordWrap: 'break-word',
-    //                           whiteSpace: 'normal',
-    //                         }}
-    //                       >
-    //                         {attributeItem.value}
-    //                       </TableCell>
-    //                     </TableRow>
-    //                   ))}
-    //               </TableBody>
-    //             </Table>
-    //           </AccordionDetails>
-    //         </Accordion>
-    //       </TabPanel>
-    //       <TabPanel value="file">
-    //         <Box sx={{ width: '100%', padding: 0, marginTop: '10px' }}>
-    //           {files.map((file: any, index: number) => (
-    //             <a onClick={() => downloadSource(file)} key={index} rel="noreferrer">
-    //               {file.isImg ? (
-    //                 <img
-    //                   src={getSource(file)}
-    //                   alt={file.fileName}
-    //                   style={{
-    //                     width: '100%',
-    //                     maxWidth: '340px',
-    //                     height: '10%',
-    //                     maxHeight: '250px',
-    //                     cursor: 'pointer',
-    //                   }}
-    //                 />
-    //               ) : (
-    //                 <Box sx={{ display: 'flex', gap: '3', alignItems: 'center' }}>
-    //                   <p style={{ textDecoration: 'underline', color: 'primary' }}>{file.fileName}</p>
-    //                   <FileOpenIcon color="primary" />
-    //                 </Box>
-    //               )}
-    //             </a>
-    //           ))}
-    //         </Box>
-    //       </TabPanel>
-    //     </TabContext>
-    //   );
-    // });
     return result;
   };
 
