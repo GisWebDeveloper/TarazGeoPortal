@@ -248,7 +248,7 @@ const Header: React.FC = () => {
                       onClose={handleCloseUserMenu}
                     >
                       <MenuItem>
-                        <Link to="/dashboard/maps" style={{ color: 'inherit', textDecoration: 'none' }}>
+                        <Link to="/dashboard/" style={{ color: 'inherit', textDecoration: 'none' }}>
                           <Typography textAlign="center">{t('dictionaries')}</Typography>
                         </Link>
                       </MenuItem>

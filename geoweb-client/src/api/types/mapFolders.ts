@@ -23,7 +23,7 @@ export type LayerDto = {
   layername: string;
   geometryType: GeometryType;
   layerType: LayerType;
-  // styleId: string; // пока не используется
+  styleId: string|null; // пока не используется
   url: string;
   baseLayer: boolean;
   checkIntersection: boolean;
@@ -31,7 +31,7 @@ export type LayerDto = {
   isDynamic: boolean;
   isPublic: boolean;
   folders: FolderDto[];
-  // dynamicIdentityColumn: string; // пока не используется
+  dynamicIdentityColumn: string|null; // пока не используется
 };
 
 export type LayerRequestDto = Partial<Omit<LayerDto, 'id'>> & {
@@ -86,6 +86,6 @@ export type LayerAttrDto = {
     shortInfo: true,
     fullInfo: true,
     layer: LayerDto,
-    dictionaryCode: string,
+    dictionaryCode: string|null,
     rank: number
   }

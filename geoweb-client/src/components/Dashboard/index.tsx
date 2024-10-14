@@ -43,59 +43,9 @@ const Dashboard: React.FC = () => {
   }, []);
 
   const routes: DashboardRoute[] = [
-    { text: t('users'), path: '/users', icon: <GrouprIcon />, component: <>{t('users')}</>, isMenuItem: true },
-    { text: t('maps.title'), path: '/maps', icon: <MapIcon />, component: <MapFolders />, isMenuItem: true },
-    {
-      path: '/maps/add',
-      component: (
-        <>
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap'}>
-            <GoBackButton text={t('backToList')} onClick={() => navigate('/dashboard/maps')} />
-            <CardHeader title={t('maps.addMap')} sx={{ textAlign: 'center', flex: 1 }} />
-          </Box>
-          <MapFolderCreateForm onSuccess={() => navigate('/dashboard/maps')} onCancel={() => navigate('/dashboard/maps')} />
-        </>
-      ),
-    },
-    {
-      path: '/maps/:id/edit',
-      component: (
-        <>
-          <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap'}>
-            <GoBackButton text={t('backToList')} onClick={() => navigate('/dashboard/maps')} />
-            <CardHeader title={t('editProperties')} sx={{ textAlign: 'center', flex: 1 }} />
-          </Box>
-          <MapFolderEditForm onSuccess={() => navigate('/dashboard/maps')} onCancel={() => navigate('/dashboard/maps')} />
-        </>
-      ),
-    },
-    { path: '/maps/:id/edit-layers', component: <MapFolderEditLayers /> },
-    {
-      text: t('layers'),
-      path: '/layers',
-      icon: <MapIcon />,
-      component: <>{t('layers')}</>,
-      isMenuItem: true,
-      children: [
-        {
-          text: t('styleEditor'),
-          path: '/edit',
-          icon: <SettingsIcon />,
-          component: <>{t('styleEditor')}</>,
-          isMenuItem: true,
-        },
-      ],
-    },
-    {
-      text: t('layerAttributes'),
-      path: '/layerAttributes',
-      icon: <SettingsIcon />,
-      component: <>{t('layerAttributes')}</>,
-      isMenuItem: true,
-    },
     {
       text: t('dictionaries'),
-      path: '/dictionaries',
+      path: '/',
       icon: <DashboardIcon />,
       component: <Dictionaries />,
       isMenuItem: true,

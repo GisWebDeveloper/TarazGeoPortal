@@ -14,7 +14,7 @@ import LayerGroup from 'ol/layer/Group';
 import { usePublicMapStore } from '../../../hooks/usePublicMapStore';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { translateField } from '../../../utils/localization';
-
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 interface Props {
   color?: CSSProperties['background'];
 }
@@ -25,6 +25,7 @@ export const LeftPanel: React.FC<Props> = ({ color }) => {
   const label = t('maps.title');
   const [layerList, setLayerList] = useState<any[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [filterDialogLayer, setFilterDialogLayer] = useState<any>(null);
 
   useEffect(() => {
     if (!userLayers || userLayers.length == 0) return;
@@ -139,20 +140,21 @@ export const LeftPanel: React.FC<Props> = ({ color }) => {
                     {layerItem.visible && <VisibilityIcon />}
                     {!layerItem.visible && <VisibilityOffIcon />}
                   </IconButton>
-                  {/* <IconButton
+                  <IconButton
                     onClick={() => {
-                      if (
-                        attributeTables.length == 0 ||
-                        attributeTables.filter((at) => at.id == layerItem.id).length == 0
-                      ) {
-                        attributeTables.push(layerItem);
-                        setAttributeTables(attributeTables);
-                      }
-                      setCurrentAttributeTable(layerItem);
+                      setFilterDialogLayer(layerItem);
+                      // if (
+                      //   attributeTables.length == 0 ||
+                      //   attributeTables.filter((at) => at.id == layerItem.id).length == 0
+                      // ) {
+                      //   attributeTables.push(layerItem);
+                      //   setAttributeTables(attributeTables);
+                      // }
+                      // setCurrentAttributeTable(layerItem);
                     }}
                   >
-                    <ListAltIcon />
-                  </IconButton> */}
+                    <FilterAltIcon />
+                  </IconButton>
                 </div>
 
                 <div className={layerItem.layername}>

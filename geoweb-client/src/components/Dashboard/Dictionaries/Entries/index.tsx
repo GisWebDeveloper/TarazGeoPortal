@@ -204,7 +204,7 @@ export const DictionaryEntries = () => {
   return (
     <>
       <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} flexWrap={'wrap'}>
-        <GoBackButton text={t('backToList')} onClick={() => navigate('/dashboard/dictionaries')} />
+        <GoBackButton text={t('backToList')} onClick={() => navigate('/dashboard/')} />
         <CardHeader
           title={t('dictionaryEntries', { dicName })}
           sx={{ textAlign: 'center', flex: 1 }}
