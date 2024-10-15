@@ -8,6 +8,7 @@ const instance = axios.create({
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
+    'Accept-Language':localStorage.getItem('current_language_goeweb')?localStorage.getItem('current_language_goeweb'):'ru'
   },
 });
 
@@ -23,6 +24,7 @@ async function refreshToken() {
 
 instance.interceptors.request.use(
   (config) => {
+    config.headers['Accept-Language'] = localStorage.getItem('current_language_goeweb')?localStorage.getItem('current_language_goeweb'):'ru';
     const isAuthUrl = config.url?.includes('/auth/token');
     const tokenData = getStoredToken();
     const token: TokenResponse = tokenData ? JSON.parse(tokenData) : null;

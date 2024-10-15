@@ -76,9 +76,9 @@ const MapComponent = () => {
     if (!mapDivRef.current || !lyrTreeInited) return;
 
     let defaultBaseLayers_ = [
-      OpenlayersBaseLayersUtils.getBaseLayerArcgisSattelite(true),
-      OpenlayersBaseLayersUtils.getBaseLayerArcgisLabels(true),
-      OpenlayersBaseLayersUtils.getBaseLayerOsm(false),
+      OpenlayersBaseLayersUtils.getBaseLayerArcgisSattelite(false),
+      OpenlayersBaseLayersUtils.getBaseLayerArcgisLabels(false),
+      OpenlayersBaseLayersUtils.getBaseLayerOsm(true),
     ];
 
     setBaseLayersArr(defaultBaseLayers_);
@@ -88,7 +88,7 @@ const MapComponent = () => {
         //center: [7739532.205446683, 6290648.115801078],
         center: [7945476.188792471, 5295863.006421878],
         //zoom: 5.15,
-        zoom: 15,
+        zoom: 14,
         extent: [
           7880019.8447,5262810.0246,8011415.0964,5331603.3501
         ]  
@@ -164,7 +164,7 @@ const MapComponent = () => {
           // accept as XYZ layer
           layersToAddToMap_.push(
             OpenlayersBaseLayersUtils.getNewTileLayer({
-              visible: false,
+              visible: true,
               baseLayer: false,
               //label: translateField(maplayer, 'name', locale),
               label: maplayer.layername,
@@ -177,7 +177,7 @@ const MapComponent = () => {
         } else {
           layersToAddToMap_.push(
             OpenlayersBaseLayersUtils.getNewTileLayer({
-              visible: false,
+              visible: true,
               baseLayer: false,
               //label: translateField(maplayer, 'name', locale),
               label: maplayer.layername,
@@ -191,7 +191,7 @@ const MapComponent = () => {
       } else {
         layersToAddToMap_.push(
           OpenlayersBaseLayersUtils.getNewTileLayer({
-            visible: false,
+            visible: true,
             baseLayer: false,
             //label: translateField(maplayer, 'name', locale),
             label: maplayer.layername,

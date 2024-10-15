@@ -39,7 +39,7 @@ export const LeftPanel: React.FC<Props> = ({ color }) => {
   }, [userLayers]);
 
   const handleButtonClick = () => {
-    setDialogOpen(true);
+    setDialogOpen(!dialogOpen);
   };
 
   const handleDialogClose = () => {

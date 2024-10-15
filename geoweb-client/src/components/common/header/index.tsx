@@ -24,6 +24,7 @@ const Header: React.FC = () => {
   
 
   const changeLanguage = (lang: string) => {
+    localStorage.setItem('current_language_goeweb',lang);
     i18n.changeLanguage(lang);
   };
 
