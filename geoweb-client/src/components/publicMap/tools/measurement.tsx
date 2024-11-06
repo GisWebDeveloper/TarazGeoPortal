@@ -72,9 +72,10 @@ const Measurement: React.FC<Props> = ({  color }) => {
   }, [map]);
 
   useEffect(() => {
+
     if (isActive) {
       addInteraction();
-      setMapMode(MapMode.EDIT);
+      setMapMode(MapMode.MEASURE);
     } else {
       clearInteraction();
       vectorRef.current!.getSource().clear();

@@ -1,4 +1,5 @@
 // src/i18n.ts
+import { common } from '@mui/material/colors';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { filter } from 'rxjs';
@@ -82,7 +83,13 @@ const resources = {
       'dictionary.by_code.already_exists': 'Осы кодпен сөздік бар',
       baseLayers:'Негізгі қабаттар',
       allRightsAreReserved:"Барлық құқықтар қорғалған",
-      filter:'Шектеу'
+      filter_:'Фильтр kz' ,
+      plantName:'Өсімдік атауы',
+      lifeForm: "Тіршлік формасы",
+      plantCondition:"Өсімдіктің жағдайы",
+      location:"Орналасқан жері",
+      commonCondition:"Жалпы жағдайы",
+      event:"Іс -шара"
     },
     
   },
@@ -164,7 +171,13 @@ const resources = {
       baseLayers:'Базовые слои',
       allRightsAreReserved:"Все права защищены"
     },
-    filter:'Фильтр'
+    filter_:'Фильтр',
+    plantName:'Название растений',
+    lifeForm: "Жизненная форма",
+    plantCondition:"Состояние растения",
+    location:"Место Расположения",
+    commonCondition:"Общее состояение",
+    event:"Мероприятия"
   },
 };
 
@@ -172,6 +185,7 @@ i18n
   .use(initReactI18next) // Integrates i18n with React
   .init({
     resources,
+    supportedLngs:['kk','ru'],
     lng: 'kk', // Default language
     fallbackLng: 'kk', // Fallback language if the current language key is missing
     interpolation: {

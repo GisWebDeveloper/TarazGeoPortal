@@ -5,6 +5,7 @@ import { create } from 'zustand';
 export enum MapMode {
   IDENTIFY = 'identify',
   EDIT = 'edit',
+  MEASURE='measure'
 }
 
 type PublicMapState = {

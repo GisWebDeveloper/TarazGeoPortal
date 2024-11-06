@@ -132,7 +132,7 @@ export const IdentifyPanel = (props: any) => {
       INFO_FORMAT: 'application/json',
       LAYERS: params.layerNames.join(),
       QUERY_LAYERS: params.layerNames.join(),
-      FEATURE_COUNT: 5,
+      FEATURE_COUNT: 15,
       propertyName: 'geom',
     });
     return url;
@@ -183,9 +183,10 @@ export const IdentifyPanel = (props: any) => {
               geom: item_.geom,
             };
             //hard code
-            let lifeFormValue = featureItem.attributes.filter((x:any)=>x.attr.attrname=='class_id')[0];
-            if(lifeFormValue.value&&lifeFormValue.value<500){
-
+            let lifeFormValue = featureItem.attributes.filter((x:any)=>x.attr.attrname=='lifeforms')[0];
+            
+            if(lifeFormValue.value&&(["Тірі бұталы қоршау (ТБҚ)","Живая изгородь (ЖИ)"].indexOf(lifeFormValue.value)===-1)){
+              
               featureItem.attributes = featureItem.attributes.filter(( attrItem_:any ) => {
                   return attrItem_.attr.attrname !== 'condithedg'&&attrItem_.attr.attrname !== 'notehedges'&&attrItem_.attr.attrname !== 'lengthhedg';
               })

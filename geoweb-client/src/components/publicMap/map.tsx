@@ -133,7 +133,11 @@ const MapComponent = () => {
         setIdentifyEventData(event);
       }
     });
-
+    // mapObj.on('moveend', function(e) {
+    //   debugger;
+    //   var newZoom = e.map.getView().getZoom();
+    //   console.log(newZoom);
+    // });
     mapObj.setTarget(mapDivRef.current);
 
     setMap(mapObj);
@@ -298,7 +302,7 @@ const MapComponent = () => {
             <HomeExtentButton map={map} color={systemThemeColor} />
             <MyLocation map={map} color={systemThemeColor} />
             <BaseLayersTool map={map} color={systemThemeColor} layers={baseLayersArr} />
-            <Measurement color={systemThemeColor} />
+            {/* <Measurement color={systemThemeColor} /> */}
           </>
         )}
       </Box>
